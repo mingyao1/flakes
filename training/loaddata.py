@@ -8,6 +8,11 @@ df['id'] = df["Asset ID"]
 df.set_index('id')
 df["mfr"] = df['Manufacturer'].str.extract('(\d+)').astype(int)
 df['asset_type'] = pd.factorize(df['Asset Type'])[0]
+
+df['floor_no'] = df['Floor'].astype(int)
+df['room_no'] = df['Room'].astype(int)
+
+df['uptime'] = df['Operational Time (hrs)'].astype(int)
 df["install_date"] = pd.to_datetime(df["Installation Date"])
 df["last_serviced_date"] = pd.to_datetime(df["Last Serviced Date"])
 df['work_orders_ct'] = df["Work Orders"].astype(int)
@@ -17,6 +22,11 @@ selected_columns = [
     'id',
     'mfr',
     'asset_type',
+
+    'floor_no',
+    'room_no',
+
+    'uptime',
     'install_date',
     'last_serviced_date',
     'work_orders_ct',
