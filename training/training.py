@@ -8,18 +8,18 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 
 # Load the dataset
-sqlite_file_path = 'your_database.db'
+sqlite_file_path = '../backend/database.db'
 conn = sqlite3.connect(sqlite_file_path)
 df = pd.read_sql('SELECT * FROM assets', conn)
-# available_columns = [
-#     'id',
-#     'mfr',
-#     'asset_type',
-#     'install_date',
-#     'last_serviced_date',
-#     'work_orders_ct',
-#     'repairs_ct'
-# ]
+df = df[[
+    'id',
+    'mfr',
+    'asset_type',
+    'install_date', # This will be changed to asset_age
+    'last_serviced_date', # will be changed to days_since_last_service
+    'work_orders_ct',
+    'repairs_ct'
+]]
 
 # Convert dates to datetime objects
 df['install_date'] = pd.to_datetime(df['install_date'])
