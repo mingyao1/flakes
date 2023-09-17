@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
 import joblib
 import pandas as pd
+import numpy as np
 import sqlite3
 
 sqlite_file_path = "database.db"
@@ -67,7 +68,7 @@ def get_asset_predictions():
 
     asset_ids = request.args.getlist("id", None)
 
-    data = {"coef": model.coef_, "intercept": model.intercept_}
+    print({"coef": model.coef_, "intercept": model.intercept_})
     conn = sqlite3.connect(sqlite_file_path)
 
     filter_columns = [
@@ -77,7 +78,7 @@ def get_asset_predictions():
         "uptime",
         "install_date",  # This will be changed to asset_age
         "last_serviced_date",  # will be changed to days_since_last_service
-        # 'work_orders_ct', # This is the one we are predicting
+        # "work_orders_ct", # This is the one we are predicting
         "repairs_ct",
     ]
     filter_columns = ", ".join(filter_columns)
@@ -96,19 +97,23 @@ def get_asset_predictions():
     df.drop(
         ["install_date", "last_serviced_date"], axis=1, inplace=True
     )  # Drop the original date columns
+    df["uptime"] /= 24
+    df = pd.get_dummies(df, columns=["mfr", "asset_type"], drop_first=True) # One-hot encode columns which will have no linear correlation
 
     df_scaled = scaler.transform(df.drop("id", axis=1))
     present_predictions = model.predict(df_scaled)
-
-    df["asset_age"] = df["asset_age"] + days_in_future
-    df["days_since_last_service"] = df["days_since_last_service"] + days_in_future
+    print(df["asset_age"])
+    df["asset_age"] += days_in_future
+    print(df["asset_age"])
+    df["days_since_last_service"] += days_in_future
+    df["uptime"] += days_in_future
     df_scaled = scaler.transform(df.drop("id", axis=1))
     future_predictions = model.predict(df_scaled)
 
     res = pd.DataFrame()
     res["id"] = df["id"]
     res.set_index("id")
-    res["work_orders_in_future"] = future_predictions - present_predictions
+    res["work_orders_in_future"] = np.subtract(future_predictions, present_predictions)
 
     return Response(res.to_json(orient="records"), content_type="application/json")
 
