@@ -4,7 +4,7 @@ const url = 'http://127.0.0.1:5000'
 
 const search = ( {props} ) => {
     
-    axios.get(url + '/search', { params: props })
+    axios.get(`${url}/search?query=${props}`)
     .then((res) => {
         alert(JSON.stringify(res.data)); 
         console.log('Search API Response:', res.data); 
@@ -12,6 +12,7 @@ const search = ( {props} ) => {
     })
     .catch((err) => {
         console.log(err);
+        throw err;
     });
 };
 
