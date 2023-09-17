@@ -32,10 +32,17 @@ df.drop(
     ["install_date", "last_serviced_date"], axis=1, inplace=True
 )  # Drop the original date columns
 df["uptime"] /= 24 # normalize to days for slightly neater inference
-df = pd.get_dummies(df, columns=["mfr", "asset_type"], drop_first=True) # One-hot encode columns which will have no linear correlation
+
+df["mfr"] = (df["mfr"]).astype(str)
+df["asset_type"] = (df["asset_type"]).astype(str)
+
+# One-hot encode columns which will have no linear correlation
+df = pd.get_dummies(df, columns=["mfr"], drop_first=True)
+df = pd.get_dummies(df, columns=["asset_type"], drop_first=True)
+
 
 # Split data into training and test sets
-X = df.drop("work_orders_ct", axis=1)
+X = df.drop(columns = ["work_orders_ct"], axis=1)
 y = df["work_orders_ct"]
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -54,6 +61,8 @@ model.fit(X_train_scaled, y_train)
 # Save the model for use with the inference code in the backend
 joblib.dump(scaler, "scaler.pkl")
 joblib.dump(model, "linear_regression_model.pkl")
+with open("X_columns.csv", "w") as f:
+    f.write(",".join(list(X.columns.values)))
 
 # Make predictions and evaluate model
 y_pred_train = model.predict(X_train_scaled)
@@ -64,3 +73,11 @@ rmse_test = np.sqrt(mean_squared_error(y_test, y_pred_test))
 
 print(f"Training RMSE: {rmse_train}")
 print(f"Test RMSE: {rmse_test}")
+
+# Get shape
+shape = X.shape
+print(f"Shape: {shape}")
+
+# Preview first 5 rows
+print("First 5 rows:")
+print(X.head(5))
