@@ -6,21 +6,22 @@ import Search from "./Search";
 const Home = () => {
 
     
+    
 
-    return <div className="container mt-4">
+    return <div className="bg-light text-white p-3">
         <header>
-            <div>Hello World</div>
+            <span style={{ color: 'green' }}>CBRE Management</span>
             <nav className="nav">
                 <ul>
                     <li>
                         <Link to='/' className="nav-link">Home</Link>
                     </li>
                     <li>
-
                     </li>
                 </ul>
             </nav>
         </header>
+        
 
         <main>
             <Search />
