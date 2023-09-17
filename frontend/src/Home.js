@@ -24,7 +24,7 @@ const Home = () => {
         <header className="bg-primary py-3">
             <div className="container">
                 <div className="d-flex align-items-center justify-content-between">
-                    <h1 className="display-5">Flake</h1>
+                    <h1 className="display-5">Flakes</h1>
                     <nav className="nav">
                         <ul className="list-unstyled d-flex m-0">
                             <li className="mr-3">
@@ -32,6 +32,9 @@ const Home = () => {
                             </li>
                             <li>
                                 <Link to='/settings' className="nav-link text-light">Settings</Link>
+                            </li>
+                            <li>
+                                <div className="nav-link text-light">About</div>
                             </li>
                         </ul>
                     </nav>

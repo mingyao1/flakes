@@ -16,7 +16,7 @@ const Asset = ({
 
     
     const [projection, setProjection] = useState();
-    
+
     const handleProj = () =>{
         api.getProjection(10, id).then((res)=>{
             alert(res);
@@ -34,7 +34,7 @@ const Asset = ({
             <p className="card-text">Installed {install_date}, Last Service on {last_serviced_date}. uptime: {uptime}</p>
             <p className="card-text">Repaired {repairs_ct} times, {work_orders_ct} historical work orders</p>
             <button className="btn btn-primary" 
-                onClick={() =>{alert(69)}}>See projection</button>
+                onClick={() =>{handleProj()}}>See projection</button>
         </div>
 
     </div>)
