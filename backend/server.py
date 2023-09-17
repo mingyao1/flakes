@@ -47,7 +47,7 @@ def get_assets():
     df = pd.read_sql(query, conn)
     df['install_date'] = pd.to_datetime(df['install_date'], unit='s').astype(str)
     df['last_serviced_date'] = pd.to_datetime(df['last_serviced_date'], unit='s').astype(str)
-    return df.to_json(orient = "records")
+    return Response(df.to_json(orient = "records"), content_type='application/json')
 
 @app.route('/get-asset-predictions')
 def get_asset_predictions():
@@ -56,7 +56,7 @@ def get_asset_predictions():
     try:
         days_in_future = float(days_in_future)
     except (TypeError, ValueError):
-        return Response("{'error':'days_in_future incorrect or missing'}", status=400, mimetype='application/json')
+        return Response("{'error':'days_in_future incorrect or missing'}", status=400, content_type='application/json')
     
     asset_ids = request.args.getlist('id', None)
 
@@ -96,7 +96,7 @@ def get_asset_predictions():
     res.set_index('id')
     res['work_orders_ct'] = predictions
 
-    return res.to_json(orient = "records")
+    return Response(res.to_json(orient = "records"), content_type='application/json')
 
 @app.route('/search')
 def search():
@@ -104,7 +104,7 @@ def search():
 
     q = request.args.get('query', None)
     if not q or len(q) == 0:
-        return Response("{'error':'Your query is empty'}", status=400, mimetype='application/json')
+        return Response("{'error':'Your query is empty'}", status=400, content_type='application/json')
 
     query = 'SELECT * FROM assets'
     conditions = []
@@ -121,8 +121,7 @@ def search():
     df = pd.read_sql(query, conn)
     df['install_date'] = pd.to_datetime(df['install_date'], unit='s').astype(str)
     df['last_serviced_date'] = pd.to_datetime(df['last_serviced_date'], unit='s').astype(str)
-    return df.to_json(orient = "records")
-
+    return Response(df.to_json(orient = "records"), content_type='application/json')
 
 if __name__ == '__main__':
     app.run()
