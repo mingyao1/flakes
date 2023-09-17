@@ -122,8 +122,8 @@ def get_asset_predictions():
 def search():
     conn = sqlite3.connect(sqlite_file_path)
 
-    q = request.args.get("query", None)
-    if not q or len(q) == 0:
+    queries = request.args.get("query", None).split(" ")
+    if not queries or len(queries) == 0 or len(queries[0]) == 0:
         return Response(
             "{'error':'Your query is empty'}",
             status=400,
@@ -132,12 +132,14 @@ def search():
 
     query = "SELECT * FROM assets"
     conditions = []
-    conditions.append('asset_type LIKE "%' + q + '%"')
-    conditions.append('mfr LIKE "%' + q + '%"')
-    conditions.append('install_date LIKE "%' + q + '%"')
-    conditions.append('last_serviced_date LIKE "%' + q + '%"')
-    conditions.append('floor_no LIKE "%' + q + '%"')
-    conditions.append('room_no LIKE "%' + q + '%"')
+
+    for q in queries:
+        conditions.append('asset_type LIKE "%' + q + '%"')
+        conditions.append('mfr LIKE "%' + q + '%"')
+        conditions.append('install_date LIKE "%' + q + '%"')
+        conditions.append('last_serviced_date LIKE "%' + q + '%"')
+        conditions.append('floor_no LIKE "%' + q + '%"')
+        conditions.append('room_no LIKE "%' + q + '%"')
 
     if len(conditions) > 0:
         query += " WHERE " + " OR ".join(conditions)
