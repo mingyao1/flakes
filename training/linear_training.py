@@ -12,22 +12,19 @@ sqlite_file_path = '../backend/database.db'
 conn = sqlite3.connect(sqlite_file_path)
 
 filter_columns = [
-    'id',
     'mfr',
     'asset_type',
+    'uptime',
     'install_date', # This will be changed to asset_age
     'last_serviced_date', # will be changed to days_since_last_service
     'work_orders_ct',
     'repairs_ct'
 ]
 filter_columns = ', '.join(filter_columns)
-
 df = pd.read_sql(f'SELECT {filter_columns} FROM assets', conn)
 
-# Convert dates to datetime objects
 df['install_date'] = pd.to_datetime(df['install_date'])
 df['last_serviced_date'] = pd.to_datetime(df['last_serviced_date'])
-
 # Create new features like age of asset, days since last serviced, etc.
 df['asset_age'] = (pd.Timestamp.now() - df['install_date']).dt.days
 df['days_since_last_service'] = (pd.Timestamp.now() - df['last_serviced_date']).dt.days
