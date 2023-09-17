@@ -19,7 +19,7 @@ const Home = () => {
             <nav className="nav" style={{ alignItems: 'left' }}>
                 <ul style={{ display: 'flex', alignItems: 'left', listStyleType: 'none', padding: 0 }}>
                     <li style={{ alignItems: 'left' }}>
-                    <Link to='/' className="nav-link">Home</Link>
+                    <Link to='/' className="nav-link">Daily</Link>
                     </li>
                     <li>
                     </li>
@@ -52,6 +52,8 @@ const Home = () => {
         </main>
 
     </div>
+
+    
 }
 
 export default Home;
