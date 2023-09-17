@@ -3,10 +3,6 @@ import { Link } from "react-router-dom";
 import Search from "./Search";
 import { PieChart } from 'react-minimal-pie-chart';
 
-
-
-const Home = () => {
-
     const manufacturers = [
         { title: 'Manufacturer 1', value: 10, color: '#FF0000' },
         { title: 'Manufacturer 2', value: 15, color: '#FFFF00' },
@@ -15,6 +11,7 @@ const Home = () => {
         { title: 'Manufacturer 5', value: 8, color: '#0099CC' },
     ];
 
+const Home = () => {
 
     return <div className="container">
         <header className="bg-primary py-3">
@@ -58,6 +55,7 @@ const Home = () => {
                 ]}
 
             />
+            
         </main>
 
     </div>
@@ -66,3 +64,6 @@ const Home = () => {
 }
 
 export default Home;
+
+
+
