@@ -27,25 +27,22 @@ const Home = () => {
         
 
         <div>
-        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Work order received">
             Tooltip on top
         </button>
         &nbsp;&nbsp;&nbsp; {/* Add non-breaking spaces */}
-        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Tooltip on right">
+        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Repairs applied">
             Tooltip on right
         </button>
         &nbsp;&nbsp;&nbsp; {/* Add non-breaking spaces */}
-        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
+        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="High risk asset">
             Tooltip on bottom
-        </button>
-        &nbsp;&nbsp;&nbsp; {/* Add non-breaking spaces */}
-        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Tooltip on left">
-            Tooltip on left
         </button>
         </div>
 
 
         <main>
+            marginLeft
             <Search />
         </main>
 
