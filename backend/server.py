@@ -45,6 +45,8 @@ def get_assets():
         query += " WHERE " + " & ".join(conditions)   
     
     df = pd.read_sql(query, conn)
+    df['install_date'] = pd.to_datetime(df['install_date'], unit='s').astype(str)
+    df['last_serviced_date'] = pd.to_datetime(df['last_serviced_date'], unit='s').astype(str)
     return df.to_json(orient = "records")
 
 @app.route('/get-asset-predictions')
@@ -80,8 +82,8 @@ def get_asset_predictions():
 
     df = pd.read_sql(f'SELECT {filter_columns} FROM assets{addtl}', conn)
 
-    df['install_date'] = pd.to_datetime(df['install_date'])
-    df['last_serviced_date'] = pd.to_datetime(df['last_serviced_date'])
+    df['install_date'] = pd.to_datetime(df['install_date'], unit='s')
+    df['last_serviced_date'] = pd.to_datetime(df['last_serviced_date'], unit='s')
     # Create new features like age of asset, days since last serviced, etc.
     df['asset_age'] = (pd.Timestamp.now() - df['install_date']).dt.days
     df['days_since_last_service'] = (pd.Timestamp.now() - df['last_serviced_date']).dt.days + days_in_future
@@ -117,6 +119,8 @@ def search():
         query += " WHERE " + " OR ".join(conditions)   
     
     df = pd.read_sql(query, conn)
+    df['install_date'] = pd.to_datetime(df['install_date'], unit='s').astype(str)
+    df['last_serviced_date'] = pd.to_datetime(df['last_serviced_date'], unit='s').astype(str)
     return df.to_json(orient = "records")
 
 
