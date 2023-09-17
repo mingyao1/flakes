@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Search from "./Search";
 import { PieChart } from 'react-minimal-pie-chart';
+import myImage from './cbre-group-logo.original.webp';
+
 
 const manufacturers = [
     { title: 'Manufacturer 1', value: 10, color: '#FF0000' },
@@ -12,6 +14,9 @@ const manufacturers = [
   ];
 
 const Home = () => {
+
+    
+      
 
     return <div className="bg-light p-3">
         <header style={{ display: 'flex', alignItems: 'left' }}> 
@@ -28,6 +33,7 @@ const Home = () => {
         </header>
 
         <main>
+        <img src={myImage} alt="Description of the image" style={{ display : 'flex', alignItems: 'center' , width: '200px', height: 'auto' }} />
             <Search />
             <div style={{ width: '50%', display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
             {manufacturers.map((manufacturer, index) => (
@@ -49,11 +55,15 @@ const Home = () => {
                 ]}
             
             />
+            
         </main>
 
     </div>
 
-    
+
 }
 
 export default Home;
+
+
+
