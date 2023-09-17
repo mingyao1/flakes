@@ -1,10 +1,12 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
+from flask_cors import CORS
 import pandas as pd
 import sqlite3
 
 sqlite_file_path = 'database.db'
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}}) # Allow CORS requests from any origin. This should be removed for prod
 
 @app.route('/')
 def hello():
@@ -53,6 +55,8 @@ def search():
     conn = sqlite3.connect(sqlite_file_path)
 
     q = request.args.get('query', None)
+    if not q or len(q) == 0:
+        return Response("{'error':'Your query is empty'}", status=400, mimetype='application/json')
 
     query = 'SELECT * FROM assets'
     conditions = []
