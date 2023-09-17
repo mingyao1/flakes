@@ -45,12 +45,23 @@ const Home = () => {
 
         <main className="container text-align-center">
             <Search />
+            <br></br>
+            <h2 style={{textAlign: 'center'}}>Work Orders by Manufacturer</h2>
             <div className="display">
                 <PieChart
                     className="mt-2 display-element"
                     data={manufacturers}
+                    style={{
+                        flex: '67%',
+                        maxHeight: '36.9em'
+                    }}
                 />
-                <div className="mt-5 display-element">
+                <div
+                    className="mt-5 display-element"
+                    style={{
+                        flex: '33%',
+                    }}
+                >
                     {manufacturers.map((manufacturer, index) => (
                         <div key={`slice-${index}`} style={{ display: 'block' }}>
                             <div style={{
