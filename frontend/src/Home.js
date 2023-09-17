@@ -14,12 +14,12 @@ const manufacturers = [
 const Home = () => {
 
     return <div className="bg-light p-3">
-        <header>
-            <span style={{ color: 'green' }}>Flake </span>
-            <nav className="nav" style={{ marginLeft: 'auto' }}>
-                <ul style={{ display: 'flex', listStyleType: 'none', padding: 0 }}>
-                    <li style={{ marginLeft: '20px' }}>
-                        <Link to='/' className="nav-link">Home</Link>
+        <header style={{ display: 'flex', alignItems: 'left' }}> 
+            <span style={{ color: 'green', alignItems: 'left' }}>Flake </span>
+            <nav className="nav" style={{ alignItems: 'left' }}>
+                <ul style={{ display: 'flex', alignItems: 'left', listStyleType: 'none', padding: 0 }}>
+                    <li style={{ alignItems: 'left' }}>
+                    <Link to='/' className="nav-link">Home</Link>
                     </li>
                     <li>
                     </li>
