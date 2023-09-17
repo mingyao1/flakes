@@ -13,8 +13,8 @@ df['floor_no'] = df['Floor'].astype(int)
 df['room_no'] = df['Room'].astype(int)
 
 df['uptime'] = df['Operational Time (hrs)'].astype(int)
-df["install_date"] = pd.to_datetime(df["Installation Date"])
-df["last_serviced_date"] = pd.to_datetime(df["Last Serviced Date"])
+df["install_date"] = pd.to_datetime(df["Installation Date"]).dt.strftime('%Y-%m-%d %H:%M:%S')
+df["last_serviced_date"] = pd.to_datetime(df["Last Serviced Date"]).dt.strftime('%Y-%m-%d %H:%M:%S')
 df['work_orders_ct'] = df["Work Orders"].astype(int)
 df['repairs_ct'] = df["Repairs"].astype(int)
 
