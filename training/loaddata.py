@@ -36,7 +36,7 @@ df_selected = df[selected_columns]
 df_selected.set_index('id')
 
 mapping_table = df[['asset_type', 'Asset Type']].drop_duplicates().sort_values('asset_type')
-
+mapping_table.rename(columns = {"asset_type": "id", "Asset Type": "asset_name"}, inplace=True)
 
 sqlite_file_path = '../backend/database.db'
 conn = sqlite3.connect(sqlite_file_path)
