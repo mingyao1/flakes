@@ -33,6 +33,8 @@ const Search = () => {
             <input type="text" className="form-control" id="search-input" placeholder="Search Assets..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)} />
+            <button className="btn btn-primary" onClick={
+                () => {setAssets([])}}>clear</button>
         </div>
 
         <ul className="list-group list-unstyled">

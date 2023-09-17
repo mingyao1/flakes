@@ -40,7 +40,7 @@ const Home = () => {
         </header>
 
 
-        <main className="container">
+        <main className="container text-align-center">
             <Search />
             <div className="display">
                 <PieChart

@@ -42,12 +42,13 @@ const getAllAssets = () => {
 
 };
 
-const getProjection = (days) => {
+const getProjection = (days, id) => {
     const queryParams = {
-        'days_in_future': days
+        'days_in_future': days,
+        'id': id
     }
 
-    axios.get(url + '/get-asset-predictions', { params: queryParams })
+    return axios.get(url + '/get-asset-predictions', { params: queryParams })
         .then(res => {
             console.log(res.data)
             return res.data
