@@ -1,19 +1,24 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
 import Search from "./Search";
 import { PieChart } from 'react-minimal-pie-chart';
 import api from "./server/server";
 
 const Home = () => {
-    const manufacturers = [
-        { title: 'Manufacturer 1', value: 10, color: '#FF0000' },
-        { title: 'Manufacturer 2', value: 15, color: '#FFFF00' },
-        { title: 'Manufacturer 3', value: 20, color: '#800080' },
-        { title: 'Manufacturer 4', value: 12, color: '#FF5733' },
-        { title: 'Manufacturer 5', value: 8, color: '#0099CC' },
-    ];
+    //let manufacturers = api.generateGraph(api.getAllAssets());
+    const [manufacturers, setManufacturers] = useState([{ title: "Loading", value: 1, color: '#AAAAAA' }]);
 
-    
+    useEffect(() => {
+        api.getAllAssets()
+            .then((res) => {
+                setManufacturers(api.generateGraph(res));
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+    }, []); // Empty dependency array ensures only one run
 
     return <div className="">
         <header className="bg-primary py-3">
@@ -37,28 +42,30 @@ const Home = () => {
 
         <main className="container">
             <Search />
-            <div className="mt-5">
-                {manufacturers.map((manufacturer, index) => (
-                    <div key={`slice-${index}`}>
-                        <div style={{ backgroundColor: manufacturer.color, width: '20px', height: '20px', marginRight: '8px' }}></div>
-                        {manufacturer.title}
-                    </div>
-                ))}
+            <div className="display">
+                <PieChart
+                    className="mt-2 display-element"
+                    data={manufacturers}
+                />
+                <div className="mt-5 display-element">
+                    {manufacturers.map((manufacturer, index) => (
+                        <div key={`slice-${index}`} style={{ display: 'block' }}>
+                            <div style={{
+                                backgroundColor: manufacturer.color,
+                                display: 'inline-block',
+                                width: '20px',
+                                height: '20px',
+                                marginRight: '8px',
+                                verticalAlign: 'middle'
+                            }}></div>
+                            <span>{manufacturer.title}: {manufacturer.value}</span>
+                        </div>
+                    ))}
 
+                </div>
             </div>
-            <PieChart
-                className="mt-2"
-                style={{ width: '50%' }}
-                data={[
-                    { title: 'Manufacturer 1', value: 69, color: '#FF0000' },
-                    { title: 'Manufacturer 2', value: 15, color: '#FFFF00' },
-                    { title: 'Manufacturer 3', value: 20, color: '#800080' },
-                    { title: 'Manufacturer 4', value: 12, color: '#FF5733' },
-                    { title: 'Manufacturer 5', value: 8, color: '#0099CC' },
-                ]}
 
-            />
-            
+
         </main>
 
     </div>
