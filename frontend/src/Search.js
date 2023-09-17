@@ -6,32 +6,35 @@ import { useEffect } from "react";
 import api from "./server/server";
 
 const Search = () => {
+
     const [query, setQuery] = useState('');
-    const [assets, setAssets] = useState([])
+    const [assets, setAssets] = useState([]);
 
-    const handle = () => {
-        console.log(query);
+    
+    
+    useEffect(() => {
+        if (query) {
+            api.search({ props: query })
+                .then((res) => {
+                    console.log(res.data);
+                    setAssets(res.data);
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
+        }
+    }, [query]);
 
-        api.search({ props: query })
-            .then((res) => {
-                setAssets(res.data); // Update the assets state with the search result
-                console.log(assets);
-            })
-            .catch((err) => {
-                console.error(err);
-            });
-    }
     return (<div className="container">
         <div className="form-field">
             <input type="text" className="form-control" id="search-input" placeholder="Search..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)} />
-            <button className="btn btn-primary" onClick={handle}>Search</button>
         </div>
 
         <ul>
             {assets.map((asset, index) => (
-                <li key={index}>{asset.name}</li>
+                <li key={index}>{asset.id}</li>
             ))}
         </ul>
 

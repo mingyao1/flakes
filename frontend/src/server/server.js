@@ -6,7 +6,6 @@ const search = ( {props} ) => {
     
     return axios.get(`${url}/search?query=${props}`)
     .then((res) => {
-        alert(JSON.stringify(res.data)); 
         console.log('Search API Response:', res.data); 
         return res.data;
     })
