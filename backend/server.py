@@ -1,9 +1,12 @@
 from flask import Flask, jsonify, request, Response
 from flask_cors import CORS
+import joblib
 import pandas as pd
 import sqlite3
 
 sqlite_file_path = 'database.db'
+model = joblib.load('../training/linear_regression_model.pkl')
+scaler = joblib.load('../training/scaler.pkl')
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}) # Allow CORS requests from any origin. This should be removed for prod
@@ -42,13 +45,56 @@ def get_assets():
         query += " WHERE " + " & ".join(conditions)   
     
     df = pd.read_sql(query, conn)
-    return df.to_json()
+    return df.to_json(orient = "records")
 
 @app.route('/get-asset-predictions')
 def get_asset_predictions():
+    days_in_future = request.args.get('days_in_future', None)
+    # Make sure days_in_future is a number
+    try:
+        days_in_future = float(days_in_future)
+    except (TypeError, ValueError):
+        return Response("{'error':'days_in_future incorrect or missing'}", status=400, mimetype='application/json')
     
-    data = {'message': 'This is JSON data from the backend'}
-    return jsonify(data)
+    asset_ids = request.args.getlist('id', None)
+
+    data = {
+        'coef': model.coef_,
+        'intercept': model.intercept_
+    }
+    conn = sqlite3.connect(sqlite_file_path)
+
+    filter_columns = [
+        'id',
+        'mfr',
+        'asset_type',
+        'uptime',
+        'install_date', # This will be changed to asset_age
+        'last_serviced_date', # will be changed to days_since_last_service
+        # 'work_orders_ct', # This is the one we are predicting
+        'repairs_ct'
+    ]
+    filter_columns = ', '.join(filter_columns)
+
+    addtl = f" WHERE id in ({', '.join(asset_ids)})" if asset_ids else ""
+
+    df = pd.read_sql(f'SELECT {filter_columns} FROM assets{addtl}', conn)
+
+    df['install_date'] = pd.to_datetime(df['install_date'])
+    df['last_serviced_date'] = pd.to_datetime(df['last_serviced_date'])
+    # Create new features like age of asset, days since last serviced, etc.
+    df['asset_age'] = (pd.Timestamp.now() - df['install_date']).dt.days
+    df['days_since_last_service'] = (pd.Timestamp.now() - df['last_serviced_date']).dt.days + days_in_future
+    df.drop(['install_date', 'last_serviced_date'], axis=1, inplace=True) # Drop the original date columns
+
+    df_scaled = scaler.transform(df.drop('id', axis=1))
+    predictions = model.predict(df_scaled)
+    res = pd.DataFrame()
+    res['id'] = df['id']
+    res.set_index('id')
+    res['work_orders_ct'] = predictions
+
+    return res.to_json(orient = "records")
 
 @app.route('/search')
 def search():
@@ -71,7 +117,7 @@ def search():
         query += " WHERE " + " OR ".join(conditions)   
     
     df = pd.read_sql(query, conn)
-    return df.to_json()
+    return df.to_json(orient = "records")
 
 
 if __name__ == '__main__':
