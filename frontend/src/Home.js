@@ -28,15 +28,15 @@ const Home = () => {
 
         <div>
         <button type="button" class="btn btn-secondary" data-toggle="Work order" data-placement="received" title="Work order received">
-            Tooltip on top
+            Work order received
         </button>
         &nbsp;&nbsp;&nbsp; {/* Add non-breaking spaces */}
         <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Repairs applied">
-            Tooltip on right
+            Repair applied
         </button>
         &nbsp;&nbsp;&nbsp; {/* Add non-breaking spaces */}
         <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="High risk asset">
-            Tooltip on bottom
+            High risk asset
         </button>
         </div>
 
