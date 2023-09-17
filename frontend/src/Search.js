@@ -39,7 +39,7 @@ const Search = () => {
                         id={data.id}
                         mfr={data.mfr}
                         floor_no={data.floor_no}
-                        asset_type={data.asset_type}
+                        asset_type={data.asset_name}
                         room_no={data.room_no}
                         install_date={data.install_date}
                         last_serviced_date={data.last_serviced_date}

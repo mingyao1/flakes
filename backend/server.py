@@ -31,10 +31,10 @@ def get_assets():
     floor_no = request.args.get("floor_no", None)
     room_no = request.args.get("floor_no", None)
 
-    query = "SELECT * FROM assets"
+    query = "SELECT assets.id as id, mfr, asset_name, floor_no, room_no, uptime, install_date, last_serviced_date, work_orders_ct, repairs_ct FROM assets LEFT JOIN asset_names ON assets.asset_type = asset_names.id"
     conditions = []
     if asset_type:
-        conditions.append('asset_type = "' + asset_type + '"')
+        conditions.append('asset_name = "' + asset_type + '"')
     if mfr:
         conditions.append('mfr = "' + mfr + '"')
     if install_date:
@@ -130,11 +130,11 @@ def search():
             content_type="application/json",
         )
 
-    query = "SELECT * FROM assets"
+    query = "SELECT assets.id as id, mfr, asset_name, floor_no, room_no, uptime, install_date, last_serviced_date, work_orders_ct, repairs_ct FROM assets LEFT JOIN asset_names ON assets.asset_type = asset_names.id"
     conditions = []
 
     for q in queries:
-        conditions.append('asset_type LIKE "%' + q + '%"')
+        conditions.append('asset_name LIKE "%' + q + '%"')
         conditions.append('mfr LIKE "%' + q + '%"')
         conditions.append('install_date LIKE "%' + q + '%"')
         conditions.append('last_serviced_date LIKE "%' + q + '%"')
