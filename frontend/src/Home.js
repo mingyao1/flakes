@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Search from "./Search";
 import { PieChart } from 'react-minimal-pie-chart';
+import api from "./server/server";
 
 const Home = () => {
     const manufacturers = [
@@ -12,7 +13,9 @@ const Home = () => {
         { title: 'Manufacturer 5', value: 8, color: '#0099CC' },
     ];
 
-    return <div className="container">
+    
+
+    return <div className="">
         <header className="bg-primary py-3">
             <div className="container">
                 <div className="d-flex align-items-center justify-content-between">
@@ -32,9 +35,9 @@ const Home = () => {
         </header>
 
 
-        <main>
+        <main className="container">
             <Search />
-            <div style={{ width: '50%', display: 'flex', flexDirection: 'column', alignItems: 'left' }}>
+            <div className="mt-5">
                 {manufacturers.map((manufacturer, index) => (
                     <div key={`slice-${index}`}>
                         <div style={{ backgroundColor: manufacturer.color, width: '20px', height: '20px', marginRight: '8px' }}></div>
@@ -44,9 +47,10 @@ const Home = () => {
 
             </div>
             <PieChart
+                className="mt-2"
                 style={{ width: '50%' }}
                 data={[
-                    { title: 'Manufacturer 1', value: 10, color: '#FF0000' },
+                    { title: 'Manufacturer 1', value: 69, color: '#FF0000' },
                     { title: 'Manufacturer 2', value: 15, color: '#FFFF00' },
                     { title: 'Manufacturer 3', value: 20, color: '#800080' },
                     { title: 'Manufacturer 4', value: 12, color: '#FF5733' },
