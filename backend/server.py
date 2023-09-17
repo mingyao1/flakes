@@ -100,25 +100,40 @@ def get_asset_predictions():
         ["install_date", "last_serviced_date"], axis=1, inplace=True
     )  # Drop the original date columns
     df["uptime"] /= 24
-    df = pd.get_dummies(df, columns=["mfr", "asset_type"], drop_first=True) # One-hot encode columns which will have no linear correlation
+
+    df["mfr"] = (df["mfr"]).astype(str)
+    df["asset_type"] = (df["asset_type"]).astype(str)
+
+    # One-hot encode columns which will have no linear correlation
+    df = pd.get_dummies(df, columns=["mfr"], drop_first=True)
+    df = pd.get_dummies(df, columns=["asset_type"], drop_first=True)
 
     missing_cols = set(X_columns) - set(df.columns.values)
     for col in missing_cols:
         df[col] = 0
     df = df[X_columns + ["id"]]
+    df_noid = df.drop("id", axis=1)
 
-    df_scaled = scaler.transform(df.drop("id", axis=1))
+    df_scaled = scaler.transform(df_noid)
     present_predictions = model.predict(df_scaled)
     df["asset_age"] += days_in_future
     df["days_since_last_service"] += days_in_future
     df["uptime"] += days_in_future
-    df_scaled = scaler.transform(df.drop("id", axis=1))
+    df_scaled = scaler.transform(df_noid)
     future_predictions = model.predict(df_scaled)
 
     res = pd.DataFrame()
     res["id"] = df["id"]
     res.set_index("id")
     res["work_orders_in_future"] = np.subtract(future_predictions, present_predictions)
+
+    # Get shape
+    shape = df_noid.shape
+    print(f"Shape: {shape}")
+
+    # Preview first 5 rows
+    print("First 5 rows:")
+    print(df_noid.head(5))
 
     return Response(res.to_json(orient="records"), content_type="application/json")
 
