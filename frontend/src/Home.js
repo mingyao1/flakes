@@ -11,7 +11,6 @@ const Home = () => {
             <nav className="nav" style={{ marginLeft: 'auto' }}>
                 <ul style={{ display: 'flex', listStyleType: 'none', padding: 0 }}>
                     <li style={{ marginLeft: '20px' }}>
-                        marginLeft
                         <Link to='/' className="nav-link">Home</Link>
                     </li>
                     <li>
@@ -20,11 +19,10 @@ const Home = () => {
             </nav>
         </header>
 
-
         <main>
-            marginLeft
             <Search />
             <PieChart
+                style={{ width: '50%' }}
                 data={[
                     { title: 'One', value: 10, color: '#E38627' },
                     { title: 'Two', value: 15, color: '#C13C37' },
