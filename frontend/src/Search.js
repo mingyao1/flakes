@@ -7,7 +7,7 @@ import api from "./server/server";
 
 const Search = () => {
     const [query, setQuery] = useState('');
-    const [assests, setAssets] = useState([])
+    const [assets, setAssets] = useState([])
 
     const handle = () => {
         console.log(query);
@@ -15,16 +15,26 @@ const Search = () => {
         api.search({ props: query })
             .then((res) => {
                 setAssets(res.data); // Update the assets state with the search result
+                console.log(assets);
             })
             .catch((err) => {
                 console.error(err);
             });
     }
-    return (<div className="form-field">
-        <input type="text" className="form-control" id="search-input" placeholder="Search..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)} />
-        <button className="btn btn-primary" onClick={handle}>Search</button>
+    return (<div className="container">
+        <div className="form-field">
+            <input type="text" className="form-control" id="search-input" placeholder="Search..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)} />
+            <button className="btn btn-primary" onClick={handle}>Search</button>
+        </div>
+
+        <ul>
+            {assets.map((asset, index) => (
+                <li key={index}>{asset.name}</li>
+            ))}
+        </ul>
+
     </div>)
 }
 

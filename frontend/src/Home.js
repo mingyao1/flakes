@@ -5,7 +5,6 @@ import Search from "./Search";
 
 const Home = () => {
 
-    
 
     return <div className="container">
         <header>
