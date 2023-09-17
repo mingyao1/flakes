@@ -27,7 +27,7 @@ const Home = () => {
         
 
         <div>
-        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Work order received">
+        <button type="button" class="btn btn-secondary" data-toggle="Work order" data-placement="received" title="Work order received">
             Tooltip on top
         </button>
         &nbsp;&nbsp;&nbsp; {/* Add non-breaking spaces */}
