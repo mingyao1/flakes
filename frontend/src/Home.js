@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Search from "./Search";
+import { PieChart } from 'react-minimal-pie-chart';
 
 
 const Home = () => {
@@ -29,7 +30,12 @@ const Home = () => {
             <Search />
         </main>
 
+
+        
+
     </div>
+
+
 }
 
 export default Home;
