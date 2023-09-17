@@ -26,8 +26,19 @@ const getAsset = ({ props }) => {
 
 };
 
-const getProjection = ( {assetid} ) => {
-    //later
+const getProjection = (days) => {
+    const queryParams = {
+        'days_in_future': days
+    }
+
+    axios.get(url+'/get-asset-predictions',{ params:queryParams })
+    .then(res => {
+        console.log(res.data)
+        return res.data
+    })
+    .catch(err => {
+        console.log(err);
+    })
 };
 
 const api = {

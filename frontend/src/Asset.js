@@ -10,15 +10,18 @@ const Asset = ({
     last_serviced_date,
     repairs_ct,
     uptime,
-    work_orders_ct 
+    work_orders_ct
 }) => {
 
 
-    return (<div>
-        <p>Asset {id} at Floor {floor_no}, Room {room_no}</p>
-        <p>asset_type: {asset_type} by manufacturer {mfr}</p>
-        <p>Installed {install_date}, Last Service on {last_serviced_date}. uptime: {uptime}</p>
-        <p>Repaired {repairs_ct} times, {work_orders_ct} historical work orders</p>
+    return (<div className="card mt-3">
+        <p className="card-header">Asset {id} at Floor {floor_no}, Room {room_no}</p>
+        <div className="card-body">
+            <p className="card-title">asset_type: {asset_type} by manufacturer {mfr}</p>
+            <p className="card-text">Installed {install_date}, Last Service on {last_serviced_date}. uptime: {uptime}</p>
+            <p className="card-text">Repaired {repairs_ct} times, {work_orders_ct} historical work orders</p>
+        </div>
+
     </div>)
 }
 

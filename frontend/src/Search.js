@@ -25,16 +25,19 @@ const Search = () => {
         }
     }, [query]);
 
-    return (<div className="container">
-        <div className="form-field">
-            <input type="text" className="form-control" id="search-input" placeholder="Search..."
+    return (<div className="container mt-3">
+        <div className="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Search</span>
+            </div>
+            <input type="text" className="form-control" id="search-input" placeholder="Search Assets..."
                 value={query}
                 onChange={(e) => setQuery(e.target.value)} />
         </div>
 
-        <ul>
+        <ul className="list-group list-unstyled">
             {assets.map((data, index) => (
-                <li key={index}>
+                <li ckey={index}>
                     <Asset
                         id={data.id}
                         mfr={data.mfr}
