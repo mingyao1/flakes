@@ -12,9 +12,9 @@ sqlite_file_path = '../backend/database.db'
 conn = sqlite3.connect(sqlite_file_path)
 
 filter_columns = [
-    'id',
     'mfr',
     'asset_type',
+    'uptime',
     'install_date', # This will be changed to asset_age
     'last_serviced_date', # will be changed to days_since_last_service
     'work_orders_ct',
