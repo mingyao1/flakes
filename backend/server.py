@@ -84,15 +84,21 @@ def get_asset_predictions():
     df['last_serviced_date'] = pd.to_datetime(df['last_serviced_date'])
     # Create new features like age of asset, days since last serviced, etc.
     df['asset_age'] = (pd.Timestamp.now() - df['install_date']).dt.days
-    df['days_since_last_service'] = (pd.Timestamp.now() - df['last_serviced_date']).dt.days + days_in_future
+    df['days_since_last_service'] = (pd.Timestamp.now() - df['last_serviced_date']).dt.days
     df.drop(['install_date', 'last_serviced_date'], axis=1, inplace=True) # Drop the original date columns
 
     df_scaled = scaler.transform(df.drop('id', axis=1))
-    predictions = model.predict(df_scaled)
+    present_predictions = model.predict(df_scaled)
+
+    df['asset_age'] = df['asset_age'] + days_in_future
+    df['days_since_last_service'] = df['days_since_last_service'] + days_in_future
+    df_scaled = scaler.transform(df.drop('id', axis=1))
+    future_predictions = model.predict(df_scaled)
+
     res = pd.DataFrame()
     res['id'] = df['id']
     res.set_index('id')
-    res['work_orders_ct'] = predictions
+    res['work_orders_in_future'] = future_predictions - present_predictions
 
     return Response(res.to_json(orient = "records"), content_type='application/json')
 
