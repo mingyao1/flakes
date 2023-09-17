@@ -10,8 +10,8 @@ from sklearn.metrics import mean_squared_error
 # Load the dataset
 sqlite_file_path = '../backend/database.db'
 conn = sqlite3.connect(sqlite_file_path)
-df = pd.read_sql('SELECT * FROM assets', conn)
-df = df[[
+
+filter_columns = [
     'id',
     'mfr',
     'asset_type',
@@ -19,7 +19,10 @@ df = df[[
     'last_serviced_date', # will be changed to days_since_last_service
     'work_orders_ct',
     'repairs_ct'
-]]
+]
+filter_columns = ', '.join(filter_columns)
+
+df = pd.read_sql(f'SELECT {filter_columns} FROM assets', conn)
 
 # Convert dates to datetime objects
 df['install_date'] = pd.to_datetime(df['install_date'])
