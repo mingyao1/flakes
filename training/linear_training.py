@@ -54,6 +54,8 @@ model.fit(X_train_scaled, y_train)
 # Save the model for use with the inference code in the backend
 joblib.dump(scaler, "scaler.pkl")
 joblib.dump(model, "linear_regression_model.pkl")
+with open("X_columns.csv", "w") as f:
+    f.write(",".join(list(X.columns.values)))
 
 # Make predictions and evaluate model
 y_pred_train = model.predict(X_train_scaled)
