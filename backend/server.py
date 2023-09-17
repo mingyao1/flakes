@@ -45,8 +45,6 @@ def get_assets():
         query += " WHERE " + " & ".join(conditions)   
     
     df = pd.read_sql(query, conn)
-    df['install_date'] = pd.to_datetime(df['install_date'])
-    df['last_serviced_date'] = pd.to_datetime(df['last_serviced_date'])
     return Response(df.to_json(orient = "records"), content_type='application/json')
 
 @app.route('/get-asset-predictions')
@@ -119,8 +117,6 @@ def search():
         query += " WHERE " + " OR ".join(conditions)   
     
     df = pd.read_sql(query, conn)
-    df['install_date'] = pd.to_datetime(df['install_date'])
-    df['last_serviced_date'] = pd.to_datetime(df['last_serviced_date'])
     return Response(df.to_json(orient = "records"), content_type='application/json')
 
 if __name__ == '__main__':
